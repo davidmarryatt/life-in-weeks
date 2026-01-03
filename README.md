@@ -1,4 +1,3 @@
-[life-weeks-readme.md](https://github.com/user-attachments/files/24412568/life-weeks-readme.md)
 # Life in Weeks
 
 A minimalist life visualization and journaling app that helps you reflect on the passage of time. Visualize your entire life as a grid of weeks, where each dot represents one week of your life.
@@ -40,7 +39,28 @@ A minimalist life visualization and journaling app that helps you reflect on the
 ## Installation
 
 ### Use Online (Easiest)
-Visit the hosted version: [Your GitHub Pages URL will go here]
+Visit the hosted version: [https://yourusername.github.io/life-in-weeks/](https://yourusername.github.io/life-in-weeks/)
+
+*(Replace `yourusername` with the actual GitHub username)*
+
+### Install Locally (Your Own Copy)
+
+**Option 1: Download and Open**
+1. Go to the [GitHub repository](https://github.com/yourusername/life-in-weeks)
+2. Click the green **"Code"** button
+3. Click **"Download ZIP"**
+4. Extract the ZIP file to a folder on your computer
+5. Open `index.html` in any web browser (Chrome, Firefox, Safari, Edge)
+6. Bookmark it for easy access
+
+**Option 2: Clone the Repository** (if you know Git)
+```bash
+git clone https://github.com/yourusername/life-in-weeks.git
+cd life-in-weeks
+open index.html
+```
+
+**Your data is private!** All memories are stored locally on your device. Nothing is sent to any server.
 
 ### Install on Mobile
 

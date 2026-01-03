@@ -54,6 +54,25 @@
       const [hoveredWeek, setHoveredWeek] = useState(null);
       const [clickedWeek, setClickedWeek] = useState(null);
       const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+      const [userName, setUserName] = useState('');
+      const [showNamePrompt, setShowNamePrompt] = useState(false);
+
+      useEffect(() => {
+        // Load user name
+        const loadUserName = async () => {
+          try {
+            const result = await window.storage.get('life-weeks-user-name');
+            if (result && result.value) {
+              setUserName(result.value);
+            } else {
+              setShowNamePrompt(true);
+            }
+          } catch (error) {
+            setShowNamePrompt(true);
+          }
+        };
+        loadUserName();
+      }, []);
 
       useEffect(() => {
         if (showVisualization && birthDate) {
@@ -146,6 +165,13 @@
       const handleVisualize = () => {
         if (birthDate && lifeExpectancy) {
           setShowVisualization(true);
+        }
+      };
+
+      const handleSaveName = async () => {
+        if (userName.trim()) {
+          await window.storage.set('life-weeks-user-name', userName.trim());
+          setShowNamePrompt(false);
         }
       };
 
@@ -255,6 +281,9 @@
       if (!showVisualization) {
         return React.createElement('div', { className: 'min-h-screen bg-white flex items-center justify-center p-4' },
           React.createElement('div', { className: 'w-full max-w-md' },
+            userName && React.createElement('p', { className: 'text-sm text-gray-600 mb-4' },
+              `Welcome back, ${userName}`
+            ),
             React.createElement('h1', { className: 'text-2xl font-light text-gray-900 mb-2' }, 'Life in weeks'),
             React.createElement('p', { className: 'text-sm text-gray-600 mb-12' },
               'A simple visualization to reflect on the passage of time'
@@ -289,6 +318,32 @@
                 onClick: handleVisualize,
                 className: 'w-full py-3 bg-gray-900 text-white text-sm font-light hover:bg-gray-800 transition-colors'
               }, 'Visualize')
+            )
+          ),
+          
+          showNamePrompt && React.createElement('div', { 
+            className: 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50' 
+          },
+            React.createElement('div', { className: 'bg-white rounded-lg p-6 max-w-md w-full' },
+              React.createElement('h3', { className: 'text-lg font-light text-gray-900 mb-2' }, 'What\'s your name?'),
+              React.createElement('p', { className: 'text-sm text-gray-600 mb-4' },
+                'This will personalize your experience'
+              ),
+              React.createElement('input', {
+                type: 'text',
+                value: userName,
+                onChange: (e) => setUserName(e.target.value),
+                placeholder: 'Enter your name',
+                className: 'w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors text-gray-900 text-sm mb-4',
+                autoFocus: true,
+                onKeyPress: (e) => {
+                  if (e.key === 'Enter') handleSaveName();
+                }
+              }),
+              React.createElement('button', {
+                onClick: handleSaveName,
+                className: 'w-full py-2 bg-gray-900 text-white text-sm font-light hover:bg-gray-800 transition-colors'
+              }, 'Continue')
             )
           )
         );
@@ -336,7 +391,12 @@
       return React.createElement('div', { className: 'min-h-screen bg-white' },
         React.createElement('div', { className: 'max-w-4xl mx-auto px-4 py-8 md:py-16' },
           React.createElement('div', { className: 'mb-12' },
-            React.createElement('h1', { className: 'text-2xl font-light text-gray-900 mb-4' }, 'Your life in weeks'),
+            userName && React.createElement('p', { className: 'text-sm text-gray-600 mb-2' },
+              `Welcome back, ${userName}. This is your life in weeks.`
+            ),
+            React.createElement('h1', { className: 'text-2xl font-light text-gray-900 mb-4' }, 
+              userName ? 'Your life in weeks' : 'Life in weeks'
+            ),
             React.createElement('p', { className: 'text-sm text-gray-600 max-w-xl' },
               'Each row represents one year starting from your birth date. Each dot is one week. The darker dots are weeks you\'ve lived. The large dot marks this week. Hover to see dates, click to add memories.'
             )

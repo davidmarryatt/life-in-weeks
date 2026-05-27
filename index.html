@@ -166,10 +166,11 @@
           onMouseLeave: () => setHoveredWeek(null),
           onClick: () => setClickedWeek({ yi, wi }),
           className: `rounded-full transition-all duration-200 cursor-pointer border ${
-            isCurrent ? 'w-2.5 h-2.5 bg-gray-900 border-gray-700 scale-150' :
-            isPast ? hasMem ? 'w-3 h-3 bg-blue-400 border-blue-600' : 'w-2.5 h-2.5 bg-gray-400 border-gray-600' :
-            'w-2.5 h-2.5 bg-gray-200 border-gray-400'
-          } hover:scale-125`
+            isCurrent ? 'bg-gray-900 border-gray-700' :
+            isPast ? hasMem ? 'bg-blue-400 border-blue-600' : 'bg-gray-400 border-gray-600' :
+            'bg-gray-200 border-gray-400'
+          } hover:scale-125`,
+          style: { width: hasMem ? '9px' : '7px', height: hasMem ? '9px' : '7px', flexShrink: 0 }
         });
       };
 
